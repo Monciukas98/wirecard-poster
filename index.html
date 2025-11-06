@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wirecard – Interactive Poster Companion</title>
+  <meta name="description" content="Interactive, mobile‑friendly page with buttons/tabs for History, Actors, and Timeline for the Wirecard scandal.">
+  <style>
+    :root{--bg:#0b1020;--fg:#e5e7eb;--muted:#9ca3af;--accent:#60a5fa;--panel:#0f172a;--hover:#1f2937;--border:#233148;--success:#22c55e;--warn:#f59e0b;--danger:#ef4444}
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
+    a{color:var(--accent)}
+    .wrap{max-width:1100px;margin:0 auto;padding:20px}
+    header{position:sticky;top:0;z-index:20;background:linear-gradient(180deg,rgba(11,16,32,.95),rgba(11,16,32,.8));border-bottom:1px solid var(--border);backdrop-filter:blur(8px)}
+    .topbar{display:flex;gap:14px;align-items:center;justify-content:space-between;padding:12px 20px}
+    .brand{display:flex;align-items:center;gap:10px}
+    .badge{font-size:12px;padding:4px 8px;border-radius:999px;background:#0a1028;border:1px solid #1f2e4b;color:#c7d2fe}
+    h1{margin:0;font-size:clamp(20px,3.2vw,32px)}
+    .tabs{display:flex;flex-wrap:wrap;gap:10px}
+    .tab-btn{border:1px solid var(--border);background:var(--panel);padding:10px 14px;border-radius:12px;color:#cbd5e1;cursor:pointer}
+    .tab-btn[aria-selected="true"]{outline:2px solid var(--accent);background:#101a33}
+    .tab-btn:hover{background:var(--hover)}
+    main{padding:20px}
+    .panel{display:none;border:1px solid var(--border);background:var(--panel);border-radius:16px;padding:18px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    .panel.active{display:block}
+
+    /* Cards & grids */
+    .grid{display:grid;gap:16px}
+    @media(min-width:900px){.grid-2{grid-template-columns:1fr 1fr}.grid-3{grid-template-columns:repeat(3,1fr)}}
+    .card{border:1px solid var(--border);background:#0e162a;border-radius:14px;padding:14px}
+
+    /* Timeline */
+    .timeline{position:relative;padding-left:20px}
+    .timeline:before{content:"";position:absolute;left:8px;top:0;bottom:0;width:2px;background:#294066}
+    .titem{position:relative;margin:12px 0;padding-left:14px}
+    .titem:before{content:"";position:absolute;left:2px;top:.55em;width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(96,165,250,.2)}
+
+    /* Accordions */
+    details{background:#0c1428;border:1px solid var(--border);border-radius:12px;padding:10px}
+    details summary{cursor:pointer;font-weight:600;color:#d1d5db}
+    .chip{display:inline-flex;gap:6px;align-items:center;background:#111a33;border:1px solid #2a3b60;color:#a5b4fc;border-radius:999px;padding:4px 10px;font-size:12px}
+
+    /* Search */
+    .search{display:flex;gap:10px}
+    .search input{flex:1;padding:10px 12px;border-radius:12px;border:1px solid var(--border);background:#0c1326;color:var(--fg)}
+
+    footer{color:var(--muted);font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;margin-top:20px}
+    .notice{font-size:13px;color:#93c5fd}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="topbar">
+      <div class="brand">
+        <span class="badge">Poster Companion</span>
+        <h1>Wirecard: Interactive</h1>
+      </div>
+      <nav class="tabs" role="tablist" aria-label="Wirecard sections">
+        <button class="tab-btn" role="tab" aria-controls="p-summary" aria-selected="true" id="t-summary">Overview</button>
+        <button class="tab-btn" role="tab" aria-controls="p-history" aria-selected="false" id="t-history">History</button>
+        <button class="tab-btn" role="tab" aria-controls="p-actors" aria-selected="false" id="t-actors">Actors</button>
+        <button class="tab-btn" role="tab" aria-controls="p-timeline" aria-selected="false" id="t-timeline">Timeline</button>
+        <button class="tab-btn" role="tab" aria-controls="p-redflags" aria-selected="false" id="t-redflags">Red Flags</button>
+        <button class="tab-btn" role="tab" aria-controls="p-sources" aria-selected="false" id="t-sources">Sources</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- Overview -->
+    <section id="p-summary" class="panel active" role="tabpanel" aria-labelledby="t-summary">
+      <div class="grid grid-2">
+        <div class="card">
+          <h2>What happened?</h2>
+          <p>Replace this paragraph with a crisp 3–4 sentence summary (rise as a DAX 30 payments champion → scrutiny over third‑party acquirer revenues → KPMG special audit → missing €1.9bn → insolvency in June 2020).</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+            <span class="chip">Founded 1999</span>
+            <span class="chip">DAX member 2018–2020</span>
+            <span class="chip">Insolvency 25 Jun 2020</span>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Why it matters</h2>
+          <ul>
+            <li>Governance & audit oversight breakdown</li>
+            <li>Regulatory response (BaFin/ESMA)</li>
+            <li>Investor protection & market integrity</li>
+          </ul>
+          <p class="notice">Tip: add a 1‑page PDF handout link at the bottom.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- History -->
+    <section id="p-history" class="panel" role="tabpanel" aria-labelledby="t-history">
+      <div class="grid grid-2">
+        <div class="card">
+          <h2>Company History (short)</h2>
+          <ul>
+            <li><strong>1999–2004:</strong> Early operations & market entry.</li>
+            <li><strong>2005–2010:</strong> Expansion via acquisitions & listings.</li>
+            <li><strong>2011–2018:</strong> Hyper‑growth; entry into DAX.</li>
+            <li><strong>2019–2020:</strong> Special audit and collapse.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h2>Mechanics</h2>
+          <details><summary>Third‑party acquirer (TPA) model</summary><p>Short explainer of how TPAs allegedly processed transactions and recognition/cash confirmation risks.</p></details>
+          <details><summary>Cash & trustee accounts</summary><p>Outline of claimed escrow balances and confirmation issues.</p></details>
+          <details><summary>Audit trail</summary><p>KPMG special audit scope and key gaps.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Actors -->
+    <section id="p-actors" class="panel" role="tabpanel" aria-labelledby="t-actors">
+      <div class="card">
+        <div class="search">
+          <input id="actorSearch" type="search" placeholder="Search actors (e.g., Braun, Marsalek, BaFin, EY)…" aria-label="Search actors" />
+        </div>
+      </div>
+      <div class="grid grid-3" id="actorGrid" style="margin-top:12px">
+        <article class="card actor" data-tags="markus braun ceo management">
+          <h3 style="margin-top:0">Markus Braun</h3>
+          <p><em>CEO (long‑time)</em>. Add 2–3 bullet facts (role, charges/status, governance issues).</p>
+          <details><summary>More</summary><ul><li>Key decisions & public statements</li><li>Legal outcomes/status</li></ul></details>
+        </article>
+        <article class="card actor" data-tags="jan marsalek coo management">
+          <h3 style="margin-top:0">Jan Marsalek</h3>
+          <p><em>COO</em>. Add 2–3 bullet facts (TPA oversight, travel, status).</p>
+          <details><summary>More</summary><ul><li>Investigations</li><li>Timeline highlights</li></ul></details>
+        </article>
+        <article class="card actor" data-tags="bafin regulator supervision">
+          <h3 style="margin-top:0">BaFin (Regulator)</h3>
+          <p>Role in supervision, short‑selling bans, post‑mortem actions.</p>
+        </article>
+        <article class="card actor" data-tags="esma regulator europe">
+          <h3 style="margin-top:0">ESMA</h3>
+          <p>EU markets supervisor; review of enforcement.</p>
+        </article>
+        <article class="card actor" data-tags="ey auditor kpmg special audit">
+          <h3 style="margin-top:0">Auditors (EY, KPMG)</h3>
+          <p>Statutory audits (EY) & special audit (KPMG) — scope and findings.</p>
+        </article>
+        <article class="card actor" data-tags="investors dax index banks">
+          <h3 style="margin-top:0">Investors & Banks</h3>
+          <p>Funding, index effects, covenant triggers.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Timeline -->
+    <section id="p-timeline" class="panel" role="tabpanel" aria-labelledby="t-timeline">
+      <div class="card">
+        <h2>Key Dates</h2>
+        <div class="timeline" id="tl">
+          <div class="titem"><strong>Jan 2019</strong> – FT reports on alleged irregularities in Singapore.</div>
+          <div class="titem"><strong>Oct 2019</strong> – KPMG commissioned for special audit.</div>
+          <div class="titem"><strong>Apr 2020</strong> – KPMG report highlights lack of verifiable evidence.</div>
+          <div class="titem"><strong>18 Jun 2020</strong> – €1.9bn reported missing.</div>
+          <div class="titem"><strong>25 Jun 2020</strong> – Insolvency filing.</div>
+        </div>
+        <p class="notice">Edit/add precise dates and citations as needed.</p>
+      </div>
+    </section>
+
+    <!-- Red Flags -->
+    <section id="p-redflags" class="panel" role="tabpanel" aria-labelledby="t-redflags">
+      <div class="grid grid-2">
+        <div class="card">
+          <h2>Financial & Reporting</h2>
+          <ul>
+            <li>Opaque TPA revenue; unusual margins</li>
+            <li>Large cash balances with trustees</li>
+            <li>M&A accounting and intangible build‑up</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h2>Governance & Oversight</h2>
+          <ul>
+            <li>Board independence and expertise</li>
+            <li>Audit skepticism and confirmations</li>
+            <li>Regulatory actions & short‑selling bans</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sources -->
+    <section id="p-sources" class="panel" role="tabpanel" aria-labelledby="t-sources">
+      <div class="card">
+        <h2>Sources & Further Reading</h2>
+        <ol>
+          <li>Special audit reports (e.g., KPMG 2020) – add link</li>
+          <li>Regulatory statements (BaFin / ESMA) – add link</li>
+          <li>Major press investigations – add link(s)</li>
+          <li>Court filings / insolvency administrator – add link</li>
+        </ol>
+        <details><summary>Downloadables</summary>
+          <ul>
+            <li><a href="#" download>Slide deck (PDF)</a></li>
+            <li><a href="#" download>One‑pager handout (PDF)</a></li>
+          </ul>
+        </details>
+      </div>
+    </section>
+
+    <footer class="wrap">
+      <span>© <span id="year"></span> Your Team · Course: Corporate Governance & Business Law</span>
+      <span>Contact: <a href="mailto:your@email">your@email</a></span>
+    </footer>
+  </main>
+
+  <script>
+    // Tabs logic (accessible)
+    const tabs = document.querySelectorAll('.tab-btn');
+    const panels = document.querySelectorAll('.panel');
+    function activateTab(id){
+      tabs.forEach(t=>t.setAttribute('aria-selected', t.id===`t-${id}`));
+      panels.forEach(p=>p.classList.toggle('active', p.id===`p-${id}`));
+      history.replaceState(null,'',`#${id}`); // allow deep link from QR if needed
+    }
+    tabs.forEach(btn=>btn.addEventListener('click',()=>activateTab(btn.id.replace('t-',''))));
+    // Deep link handling
+    const hash = location.hash.replace('#','');
+    if(hash){
+      const targetTab = document.getElementById(`t-${hash}`);
+      if(targetTab) activateTab(hash);
+    }
+
+    // Simple actor search filter
+    const search = document.getElementById('actorSearch');
+    const cards = document.querySelectorAll('#actorGrid .actor');
+    if(search){
+      search.addEventListener('input',()=>{
+        const q = search.value.trim().toLowerCase();
+        cards.forEach(c=>{
+          const txt = (c.textContent+" "+(c.dataset.tags||'')).toLowerCase();
+          c.style.display = txt.includes(q) ? '' : 'none';
+        });
+      });
+    }
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
