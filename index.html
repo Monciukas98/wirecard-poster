@@ -3,244 +3,246 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Wirecard – Interactive Poster Companion</title>
-  <meta name="description" content="Interactive, mobile‑friendly page with buttons/tabs for History, Actors, and Timeline for the Wirecard scandal.">
+  <title>Wirecard — Interactive Magazine</title>
+  <meta name="description" content="Mobile‑first magazine cover with clickable sections (History, Actors, Timeline, Red Flags, Sources). Animated timeline and photo cards." />
   <style>
-    :root{--bg:#0b1020;--fg:#e5e7eb;--muted:#9ca3af;--accent:#60a5fa;--panel:#0f172a;--hover:#1f2937;--border:#233148;--success:#22c55e;--warn:#f59e0b;--danger:#ef4444}
+    /* ===== Base (mobile‑first) ===== */
+    :root{
+      --bg:#0b1020;         /* deep navy */
+      --ink:#eef2ff;        /* off‑white */
+      --muted:#a5b4fc;      /* soft indigo */
+      --accent:#7dd3fc;     /* sky */
+      --accent-2:#22d3ee;   /* cyan */
+      --card:#0f172a;       /* panel */
+      --border:#22304b;     /* border */
+      --shadow:0 10px 30px rgba(0,0,0,.35)
+    }
     *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
     a{color:var(--accent)}
-    .wrap{max-width:1100px;margin:0 auto;padding:20px}
-    header{position:sticky;top:0;z-index:20;background:linear-gradient(180deg,rgba(11,16,32,.95),rgba(11,16,32,.8));border-bottom:1px solid var(--border);backdrop-filter:blur(8px)}
-    .topbar{display:flex;gap:14px;align-items:center;justify-content:space-between;padding:12px 20px}
-    .brand{display:flex;align-items:center;gap:10px}
-    .badge{font-size:12px;padding:4px 8px;border-radius:999px;background:#0a1028;border:1px solid #1f2e4b;color:#c7d2fe}
-    h1{margin:0;font-size:clamp(20px,3.2vw,32px)}
-    .tabs{display:flex;flex-wrap:wrap;gap:10px}
-    .tab-btn{border:1px solid var(--border);background:var(--panel);padding:10px 14px;border-radius:12px;color:#cbd5e1;cursor:pointer}
-    .tab-btn[aria-selected="true"]{outline:2px solid var(--accent);background:#101a33}
-    .tab-btn:hover{background:var(--hover)}
-    main{padding:20px}
-    .panel{display:none;border:1px solid var(--border);background:var(--panel);border-radius:16px;padding:18px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
-    .panel.active{display:block}
+    img{max-width:100%;height:auto;border-radius:12px}
+    .wrap{max-width:1120px;margin:0 auto;padding:16px}
+    .screen-reader{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}
 
-    /* Cards & grids */
-    .grid{display:grid;gap:16px}
-    @media(min-width:900px){.grid-2{grid-template-columns:1fr 1fr}.grid-3{grid-template-columns:repeat(3,1fr)}}
-    .card{border:1px solid var(--border);background:#0e162a;border-radius:14px;padding:14px}
+    /* ===== Magazine Cover ===== */
+    .cover{
+      position:relative;border-bottom:1px solid var(--border);
+      background:radial-gradient(1200px 400px at 50% -20%, rgba(125,211,252,.15), transparent 60%),
+                 linear-gradient(180deg, rgba(11,16,32,.2), rgba(11,16,32,.95)),
+                 #0b1020;
+      overflow:hidden
+    }
+    .cover-hero{
+      display:grid;gap:14px;align-items:end;min-height:68vh;padding:18px 16px 26px
+    }
+    .masthead{display:flex;justify-content:space-between;align-items:center;gap:10px}
+    .brand{font-weight:800;letter-spacing:.06em;font-size:clamp(16px,3.2vw,20px);color:#c7d2fe}
+    .date{font-size:12px;color:var(--muted)}
+    .kicker{color:var(--muted);text-transform:uppercase;letter-spacing:.18em;font-weight:700;font-size:12px}
+    .headline{font-weight:900;line-height:1;letter-spacing:-.02em;margin:0}
+    .headline span{display:block;font-size:clamp(28px,9.8vw,72px)}
+    .deck{color:#cbd5e1;font-size:clamp(14px,3.4vw,18px);max-width:70ch}
 
-    /* Timeline */
-    .timeline{position:relative;padding-left:20px}
-    .timeline:before{content:"";position:absolute;left:8px;top:0;bottom:0;width:2px;background:#294066}
-    .titem{position:relative;margin:12px 0;padding-left:14px}
-    .titem:before{content:"";position:absolute;left:2px;top:.55em;width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(96,165,250,.2)}
+    /* Floating buttons placed like cover teasers */
+    .teasers{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:8px}
+    .tbtn{display:flex;align-items:center;gap:8px;border:1px solid var(--border);background:rgba(15,23,42,.85);backdrop-filter:blur(6px);border-radius:14px;padding:10px 12px;font-weight:700;box-shadow:var(--shadow);cursor:pointer}
+    .tbtn:active{transform:translateY(1px)}
+    .ticon{width:24px;height:24px;border-radius:999px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:inline-block}
 
-    /* Accordions */
-    details{background:#0c1428;border:1px solid var(--border);border-radius:12px;padding:10px}
-    details summary{cursor:pointer;font-weight:600;color:#d1d5db}
-    .chip{display:inline-flex;gap:6px;align-items:center;background:#111a33;border:1px solid #2a3b60;color:#a5b4fc;border-radius:999px;padding:4px 10px;font-size:12px}
+    /* ===== Sections ===== */
+    section{scroll-margin-top:70px}
+    .panel{border:1px solid var(--border);background:var(--card);border-radius:18px;padding:16px;box-shadow:var(--shadow);margin:18px 0}
+    .panel h2{margin:0 0 8px;font-size:clamp(18px,4.6vw,28px);color:var(--accent)}
+    .muted{color:#cbd5e1}
 
-    /* Search */
-    .search{display:flex;gap:10px}
-    .search input{flex:1;padding:10px 12px;border-radius:12px;border:1px solid var(--border);background:#0c1326;color:var(--fg)}
+    /* Grid helpers */
+    .grid{display:grid;gap:12px}
+    @media(min-width:760px){.grid-2{grid-template-columns:1fr 1fr}.grid-3{grid-template-columns:repeat(3,1fr)}}
 
-    footer{color:var(--muted);font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;margin-top:20px}
-    .notice{font-size:13px;color:#93c5fd}
+    /* Actor cards */
+    .actor{display:grid;grid-template-columns:80px 1fr;gap:12px;align-items:center;border:1px solid var(--border);background:#0e162a;border-radius:14px;padding:12px}
+    .actor h3{margin:0;font-size:18px}
+    .tag{display:inline-flex;align-items:center;gap:6px;border:1px solid #334155;background:#101a2a;color:#9fb3ff;border-radius:999px;padding:4px 10px;font-size:12px}
+
+    /* ===== Animated Timeline ===== */
+    .timeline{position:relative;padding-left:18px}
+    .timeline::before{content:"";position:absolute;left:8px;top:0;bottom:0;width:2px;background:#294066}
+    .titem{position:relative;margin:14px 0;padding-left:14px;opacity:0;transform:translateX(-12px);transition:transform .6s ease,opacity .6s ease}
+    .titem::before{content:"";position:absolute;left:2px;top:.55em;width:12px;height:12px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2));box-shadow:0 0 0 6px rgba(125,211,252,.15)}
+    .titem.show{opacity:1;transform:translateX(0)}
+
+    /* Footer */
+    footer{color:#9aa7c7;font-size:12px;text-align:center;padding:20px}
   </style>
 </head>
 <body>
-  <header>
-    <div class="topbar">
-      <div class="brand">
-        <span class="badge">Poster Companion</span>
-        <h1>Wirecard: Interactive</h1>
+  <a class="screen-reader" href="#main">Skip to content</a>
+
+  <!-- ===== Magazine Cover ===== -->
+  <header class="cover">
+    <div class="wrap cover-hero">
+      <div class="masthead">
+        <div class="brand">Corporate Governance & Business Law</div>
+        <div class="date" id="date"></div>
       </div>
-      <nav class="tabs" role="tablist" aria-label="Wirecard sections">
-        <button class="tab-btn" role="tab" aria-controls="p-summary" aria-selected="true" id="t-summary">Overview</button>
-        <button class="tab-btn" role="tab" aria-controls="p-history" aria-selected="false" id="t-history">History</button>
-        <button class="tab-btn" role="tab" aria-controls="p-actors" aria-selected="false" id="t-actors">Actors</button>
-        <button class="tab-btn" role="tab" aria-controls="p-timeline" aria-selected="false" id="t-timeline">Timeline</button>
-        <button class="tab-btn" role="tab" aria-controls="p-redflags" aria-selected="false" id="t-redflags">Red Flags</button>
-        <button class="tab-btn" role="tab" aria-controls="p-sources" aria-selected="false" id="t-sources">Sources</button>
-      </nav>
+      <div>
+        <div class="kicker">Special Report</div>
+        <h1 class="headline"><span>Wirecard</span><span style="font-size:clamp(18px,5.8vw,34px);font-weight:700;color:#cbd5e1">Rise, Red Flags, and Collapse</span></h1>
+        <p class="deck">A mobile‑first interactive companion to our poster. Tap a tile to jump in: animated history timeline, key actors with photos, governance failures, and sources.</p>
+      </div>
+
+      <!-- Floating teaser buttons -->
+      <div class="teasers">
+        <button class="tbtn" data-target="#history">
+          <span class="ticon"></span> History & Animated Timeline
+        </button>
+        <button class="tbtn" data-target="#actors">
+          <span class="ticon"></span> Key Actors
+        </button>
+        <button class="tbtn" data-target="#redflags">
+          <span class="ticon"></span> Red Flags & Controls
+        </button>
+        <button class="tbtn" data-target="#sources">
+          <span class="ticon"></span> Sources & Downloads
+        </button>
+      </div>
     </div>
   </header>
 
-  <main class="wrap">
-    <!-- Overview -->
-    <section id="p-summary" class="panel active" role="tabpanel" aria-labelledby="t-summary">
+  <main id="main" class="wrap">
+    <!-- ===== History (animated timeline first) ===== -->
+    <section id="history" class="panel">
+      <h2>History</h2>
+      <p class="muted">Tap the cover tile or the button above to replay the animation.</p>
+      <div class="timeline" id="timeline">
+        <div class="titem"><strong>1999–2004</strong> — Early operations; market entry into card payments and online processing.</div>
+        <div class="titem"><strong>2005–2010</strong> — Expansion via acquisitions and complex listings; international reach grows.</div>
+        <div class="titem"><strong>2015–2018</strong> — Rapid growth and profitability; joins the DAX in 2018.</div>
+        <div class="titem"><strong>Jan 2019</strong> — Investigations intensify after major press reports on irregularities.</div>
+        <div class="titem"><strong>Oct 2019</strong> — KPMG commissioned for a special audit.</div>
+        <div class="titem"><strong>Apr 2020</strong> — KPMG report cites insufficient verifiable evidence for key revenues.</div>
+        <div class="titem"><strong>18 Jun 2020</strong> — Company discloses €1.9bn of cash is missing.</div>
+        <div class="titem"><strong>25 Jun 2020</strong> — Wirecard files for insolvency.</div>
+      </div>
+      <div class="grid grid-2" style="margin-top:12px">
+        <div>
+          <h3 style="margin:6px 0 8px">What the timeline shows</h3>
+          <p class="muted">Sequence from rise to collapse, highlighting the third‑party acquirer model, cash confirmations, and the special audit turning point.</p>
+        </div>
+        <div>
+          <h3 style="margin:6px 0 8px">Add context</h3>
+          <p class="muted">Replace this paragraph with your concise 3–5 sentence narrative for the class handout.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Actors with photos ===== -->
+    <section id="actors" class="panel">
+      <h2>Key Actors</h2>
       <div class="grid grid-2">
-        <div class="card">
-          <h2>What happened?</h2>
-          <p>Replace this paragraph with a crisp 3–4 sentence summary (rise as a DAX 30 payments champion → scrutiny over third‑party acquirer revenues → KPMG special audit → missing €1.9bn → insolvency in June 2020).</p>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
-            <span class="chip">Founded 1999</span>
-            <span class="chip">DAX member 2018–2020</span>
-            <span class="chip">Insolvency 25 Jun 2020</span>
+        <div class="actor">
+          <img src="img/braun.jpg" alt="Markus Braun photo" loading="lazy" />
+          <div>
+            <h3>Markus Braun</h3>
+            <p class="muted">Long‑time CEO. Add 2–3 bullets: role, decision points, legal status.</p>
+            <span class="tag">Management</span>
           </div>
         </div>
-        <div class="card">
-          <h2>Why it matters</h2>
-          <ul>
-            <li>Governance & audit oversight breakdown</li>
-            <li>Regulatory response (BaFin/ESMA)</li>
-            <li>Investor protection & market integrity</li>
-          </ul>
-          <p class="notice">Tip: add a 1‑page PDF handout link at the bottom.</p>
+        <div class="actor">
+          <img src="img/marsalek.jpg" alt="Jan Marsalek photo" loading="lazy" />
+          <div>
+            <h3>Jan Marsalek</h3>
+            <p class="muted">COO. Add 2–3 bullets: TPA oversight, travel, investigations.</p>
+            <span class="tag">Operations</span>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- History -->
-    <section id="p-history" class="panel" role="tabpanel" aria-labelledby="t-history">
+    <!-- ===== Red Flags ===== -->
+    <section id="redflags" class="panel">
+      <h2>Red Flags & Control Failures</h2>
       <div class="grid grid-2">
-        <div class="card">
-          <h2>Company History (short)</h2>
-          <ul>
-            <li><strong>1999–2004:</strong> Early operations & market entry.</li>
-            <li><strong>2005–2010:</strong> Expansion via acquisitions & listings.</li>
-            <li><strong>2011–2018:</strong> Hyper‑growth; entry into DAX.</li>
-            <li><strong>2019–2020:</strong> Special audit and collapse.</li>
+        <div>
+          <h3 style="margin:4px 0 6px">Financial Reporting</h3>
+          <ul class="muted">
+            <li>Opaque third‑party acquirer (TPA) revenues and unusual margins</li>
+            <li>Large cash balances held with trustees</li>
+            <li>Aggressive M&A accounting and intangibles</li>
           </ul>
         </div>
-        <div class="card">
-          <h2>Mechanics</h2>
-          <details><summary>Third‑party acquirer (TPA) model</summary><p>Short explainer of how TPAs allegedly processed transactions and recognition/cash confirmation risks.</p></details>
-          <details><summary>Cash & trustee accounts</summary><p>Outline of claimed escrow balances and confirmation issues.</p></details>
-          <details><summary>Audit trail</summary><p>KPMG special audit scope and key gaps.</p></details>
-        </div>
-      </div>
-    </section>
-
-    <!-- Actors -->
-    <section id="p-actors" class="panel" role="tabpanel" aria-labelledby="t-actors">
-      <div class="card">
-        <div class="search">
-          <input id="actorSearch" type="search" placeholder="Search actors (e.g., Braun, Marsalek, BaFin, EY)…" aria-label="Search actors" />
-        </div>
-      </div>
-      <div class="grid grid-3" id="actorGrid" style="margin-top:12px">
-        <article class="card actor" data-tags="markus braun ceo management">
-          <h3 style="margin-top:0">Markus Braun</h3>
-          <p><em>CEO (long‑time)</em>. Add 2–3 bullet facts (role, charges/status, governance issues).</p>
-          <details><summary>More</summary><ul><li>Key decisions & public statements</li><li>Legal outcomes/status</li></ul></details>
-        </article>
-        <article class="card actor" data-tags="jan marsalek coo management">
-          <h3 style="margin-top:0">Jan Marsalek</h3>
-          <p><em>COO</em>. Add 2–3 bullet facts (TPA oversight, travel, status).</p>
-          <details><summary>More</summary><ul><li>Investigations</li><li>Timeline highlights</li></ul></details>
-        </article>
-        <article class="card actor" data-tags="bafin regulator supervision">
-          <h3 style="margin-top:0">BaFin (Regulator)</h3>
-          <p>Role in supervision, short‑selling bans, post‑mortem actions.</p>
-        </article>
-        <article class="card actor" data-tags="esma regulator europe">
-          <h3 style="margin-top:0">ESMA</h3>
-          <p>EU markets supervisor; review of enforcement.</p>
-        </article>
-        <article class="card actor" data-tags="ey auditor kpmg special audit">
-          <h3 style="margin-top:0">Auditors (EY, KPMG)</h3>
-          <p>Statutory audits (EY) & special audit (KPMG) — scope and findings.</p>
-        </article>
-        <article class="card actor" data-tags="investors dax index banks">
-          <h3 style="margin-top:0">Investors & Banks</h3>
-          <p>Funding, index effects, covenant triggers.</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- Timeline -->
-    <section id="p-timeline" class="panel" role="tabpanel" aria-labelledby="t-timeline">
-      <div class="card">
-        <h2>Key Dates</h2>
-        <div class="timeline" id="tl">
-          <div class="titem"><strong>Jan 2019</strong> – FT reports on alleged irregularities in Singapore.</div>
-          <div class="titem"><strong>Oct 2019</strong> – KPMG commissioned for special audit.</div>
-          <div class="titem"><strong>Apr 2020</strong> – KPMG report highlights lack of verifiable evidence.</div>
-          <div class="titem"><strong>18 Jun 2020</strong> – €1.9bn reported missing.</div>
-          <div class="titem"><strong>25 Jun 2020</strong> – Insolvency filing.</div>
-        </div>
-        <p class="notice">Edit/add precise dates and citations as needed.</p>
-      </div>
-    </section>
-
-    <!-- Red Flags -->
-    <section id="p-redflags" class="panel" role="tabpanel" aria-labelledby="t-redflags">
-      <div class="grid grid-2">
-        <div class="card">
-          <h2>Financial & Reporting</h2>
-          <ul>
-            <li>Opaque TPA revenue; unusual margins</li>
-            <li>Large cash balances with trustees</li>
-            <li>M&A accounting and intangible build‑up</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h2>Governance & Oversight</h2>
-          <ul>
-            <li>Board independence and expertise</li>
+        <div>
+          <h3 style="margin:4px 0 6px">Governance & Oversight</h3>
+          <ul class="muted">
+            <li>Board independence & expertise gaps</li>
             <li>Audit skepticism and confirmations</li>
-            <li>Regulatory actions & short‑selling bans</li>
+            <li>Regulatory response and market supervision</li>
           </ul>
         </div>
       </div>
     </section>
 
-    <!-- Sources -->
-    <section id="p-sources" class="panel" role="tabpanel" aria-labelledby="t-sources">
-      <div class="card">
-        <h2>Sources & Further Reading</h2>
-        <ol>
-          <li>Special audit reports (e.g., KPMG 2020) – add link</li>
-          <li>Regulatory statements (BaFin / ESMA) – add link</li>
-          <li>Major press investigations – add link(s)</li>
-          <li>Court filings / insolvency administrator – add link</li>
-        </ol>
-        <details><summary>Downloadables</summary>
-          <ul>
-            <li><a href="#" download>Slide deck (PDF)</a></li>
-            <li><a href="#" download>One‑pager handout (PDF)</a></li>
-          </ul>
-        </details>
+    <!-- ===== Sources / Downloads ===== -->
+    <section id="sources" class="panel">
+      <h2>Sources & Downloads</h2>
+      <ol class="muted">
+        <li>KPMG Special Audit (2020) — add link</li>
+        <li>BaFin / ESMA statements — add link</li>
+        <li>Major press investigations — add link</li>
+        <li>Court filings / insolvency administrator updates — add link</li>
+      </ol>
+      <div class="grid">
+        <a href="handout.pdf" download class="tag">Download 1‑pager (PDF)</a>
+        <a href="slides.pdf" download class="tag">Download slides (PDF)</a>
       </div>
     </section>
-
-    <footer class="wrap">
-      <span>© <span id="year"></span> Your Team · Course: Corporate Governance & Business Law</span>
-      <span>Contact: <a href="mailto:your@email">your@email</a></span>
-    </footer>
   </main>
 
+  <footer>
+    © <span id="year"></span> Your Team · Course: Corporate Governance & Business Law
+  </footer>
+
   <script>
-    // Tabs logic (accessible)
-    const tabs = document.querySelectorAll('.tab-btn');
-    const panels = document.querySelectorAll('.panel');
-    function activateTab(id){
-      tabs.forEach(t=>t.setAttribute('aria-selected', t.id===`t-${id}`));
-      panels.forEach(p=>p.classList.toggle('active', p.id===`p-${id}`));
-      history.replaceState(null,'',`#${id}`); // allow deep link from QR if needed
-    }
-    tabs.forEach(btn=>btn.addEventListener('click',()=>activateTab(btn.id.replace('t-',''))));
-    // Deep link handling
-    const hash = location.hash.replace('#','');
-    if(hash){
-      const targetTab = document.getElementById(`t-${hash}`);
-      if(targetTab) activateTab(hash);
+    // Date + year
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const d = new Date();
+    document.getElementById('date').textContent = d.toLocaleDateString(undefined,{year:'numeric',month:'short'});
+
+    // Teaser buttons scroll + trigger animation restart
+    document.querySelectorAll('.tbtn').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const tgt = document.querySelector(btn.dataset.target);
+        if(!tgt) return;
+        tgt.scrollIntoView({behavior:'smooth'});
+        if(btn.dataset.target==='#history') startTimeline();
+      });
+    });
+
+    // Animated timeline: reveal items sequentially
+    const items = Array.from(document.querySelectorAll('#timeline .titem'));
+    function startTimeline(){
+      items.forEach(el=>el.classList.remove('show'));
+      let i = 0;
+      const tick = ()=>{
+        if(i>=items.length) return;
+        items[i].classList.add('show');
+        i++; setTimeout(tick, 320);
+      };
+      tick();
     }
 
-    // Simple actor search filter
-    const search = document.getElementById('actorSearch');
-    const cards = document.querySelectorAll('#actorGrid .actor');
-    if(search){
-      search.addEventListener('input',()=>{
-        const q = search.value.trim().toLowerCase();
-        cards.forEach(c=>{
-          const txt = (c.textContent+" "+(c.dataset.tags||'')).toLowerCase();
-          c.style.display = txt.includes(q) ? '' : 'none';
-        });
-      });
-    }
-    document.getElementById('year').textContent = new Date().getFullYear();
+    // Auto‑start animation when History section becomes visible (first time)
+    let played = false;
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting && !played){ played=true; startTimeline(); }
+      })
+    },{threshold:.3});
+    io.observe(document.getElementById('history'));
+
+    // Allow deep‑link like #history
+    const hash = location.hash.replace('#','');
+    if(hash==='history'){ setTimeout(()=>{ document.getElementById('history').scrollIntoView(); startTimeline(); }, 150); }
   </script>
 </body>
 </html>
